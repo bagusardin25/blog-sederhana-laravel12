@@ -3,8 +3,13 @@
 @section('title', $post['title'])
 
 @section('content')
-    <article class="post-detail">
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
+    <article class="post-detail">
         <h1>{{ $post['title'] }}</h1>
 
         <p class="meta">
@@ -15,7 +20,15 @@
             {!! nl2br(e($post['content'])) !!}
         </div>
 
-        <a href="{{ route('posts.index') }}" class="btn">Kembali</a>
-
+        <div class="post-actions">
+            <a href="{{ route('posts.index') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('posts.edit', $post['id']) }}" class="btn btn-warning">Edit</a>
+            <form action="{{ route('posts.destroy', $post['id']) }}" method="POST" class="inline-form"
+                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus post ini?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Hapus</button>
+            </form>
+        </div>
     </article>
 @endsection
