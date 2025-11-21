@@ -21,13 +21,13 @@
         </div>
 
         <div class="post-actions">
-            <a href="{{ route('posts.index') }}" class="btn btn-secondary">Kembali</a>
-            <a href="{{ route('posts.edit', $post['id']) }}" class="btn btn-warning">Edit</a>
+            <a href="{{ route('posts.index') }}" class="btn btn-secondary">Kembali ke Daftar</a>
+            <a href="{{ route('posts.edit', $post['id']) }}" class="btn btn-warning">Edit Post</a>
             <form action="{{ route('posts.destroy', $post['id']) }}" method="POST" class="inline-form"
                   onsubmit="return confirm('Apakah Anda yakin ingin menghapus post ini?');">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-danger">Hapus</button>
+                <button type="submit" class="btn btn-danger">Hapus Post</button>
             </form>
         </div>
     </article>

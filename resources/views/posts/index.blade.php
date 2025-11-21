@@ -29,7 +29,7 @@
             <p>{{ Str::limit($post['content'], 150) }}</p>
 
             <div class="post-actions">
-                <a href="{{ route('posts.show', $post['id']) }}" class="btn btn-sm btn-info">Lihat</a>
+                <a href="{{ route('posts.show', $post['id']) }}" class="btn btn-sm btn-info">Lihat Detail</a>
                 <a href="{{ route('posts.edit', $post['id']) }}" class="btn btn-sm btn-warning">Edit</a>
                 <form action="{{ route('posts.destroy', $post['id']) }}" method="POST" class="inline-form" 
                       onsubmit="return confirm('Apakah Anda yakin ingin menghapus post ini?');">
