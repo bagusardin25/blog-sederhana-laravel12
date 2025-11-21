@@ -21,7 +21,7 @@ class PostController extends Controller
                 'title' => 'Mengeal Blade Templaet',
                 'content' => 'Blade adalah template engine bawaan laravel',
                 'author' => 'Admin',
-                'create_at' => '2025-20-11'
+                'created_at' => '2025-20-11'
             ]
         ];
     }
