@@ -3,144 +3,91 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
-    //Mendapatkan data posts dari session (atau data dummy jika belum ada)
-    private function getPosts(){
-        $posts = session('posts', [
+    // Data dummy untuk contoh
+    private function getPosts()
+    {
+        return [
             [
                 'id' => 1,
-                'title' => 'Belajar laravel12',
-                'content' => 'Laravel adalah framework php yang popular.',
+                'title' => 'Belajar Laravel',
+                'content' => 'Laravel adalah framework PHP yang populer.',
                 'author' => 'Admin',
-                'created_at' => '2025-01-20'
+                'created_at' => '2024-01-15'
             ],
             [
                 'id' => 2,
-                'title' => 'Mengeal Blade Templaet',
-                'content' => 'Blade adalah template engine bawaan laravel',
+                'title' => 'Mengenal Blade Template',
+                'content' => 'Blade adalah template engine bawaan Laravel.',
                 'author' => 'Admin',
-                'created_at' => '2025-01-20'
+                'created_at' => '2024-01-16'
             ]
-        ]);
-
-        // Simpan ke session jika belum ada
-        if (!session()->has('posts')) {
-            session(['posts' => $posts]);
-        }
-
-        return $posts;
+        ];
     }
 
-    //Menyimpan posts ke session
-    private function savePosts($posts){
-        session(['posts' => $posts]);
-    }
-
-    //Menampilkan semua post
-    public function index(){
+    // Menampilkan semua post
+    public function index()
+    {
         $posts = $this->getPosts();
         return view('posts.index', compact('posts'));
     }
 
-    //Menampilkan form create
-    public function create(){
+    // Menampilkan form create
+    public function create()
+    {
         return view('posts.create');
     }
 
-    //Menyimpan post baru
-    public function store(Request $request){
+    // Menyimpan post baru (contoh validasi)
+    public function store(Request $request)
+    {
         $request->validate([
-            'title' => 'required|max:225',
+            'title' => 'required|max:255',
             'content' => 'required',
             'author' => 'required|max:100'
         ]);
 
-        $posts = $this->getPosts();
-        
-        // Generate ID baru
-        $maxId = collect($posts)->max('id') ?? 0;
-        $newId = $maxId + 1;
-
-        // Tambahkan post baru
-        $newPost = [
-            'id' => $newId,
-            'title' => $request->input('title'),
-            'content' => $request->input('content'),
-            'author' => $request->input('author'),
-            'created_at' => now()->format('Y-m-d')
-        ];
-
-        $posts[] = $newPost;
-        $this->savePosts($posts);
-
+        // Di sini nanti akan menyimpan ke database
         return redirect()->route('posts.index')
-            ->with('success', 'Post berhasil dibuat!');
+                         ->with('success', 'Post berhasil dibuat!');
     }
 
-    //Menampilkan detail post
-    public function show($id){
+    // Menampilkan detail post
+    public function show($id)
+    {
         $posts = $this->getPosts();
-        $post = collect($posts)->firstWhere('id', (int)$id);
-        
-        if (!$post) {
-            abort(404, 'Post tidak ditemukan');
-        }
-
+        $post = collect($posts)->firstWhere('id', $id);
         return view('posts.show', compact('post'));
     }
 
-    //Menampilkan form edit
-    public function edit($id){
+    // [Opsional: Modul tidak menyertakan edit/update/destroy, tapi resource route ada]
+    public function edit($id)
+    {
         $posts = $this->getPosts();
-        $post = collect($posts)->firstWhere('id', (int)$id);
-        
-        if (!$post) {
-            abort(404, 'Post tidak ditemukan');
-        }
-
+        $post = collect($posts)->firstWhere('id', $id);
         return view('posts.edit', compact('post'));
     }
 
-    //Menyimpan perubahan post
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $request->validate([
-            'title' => 'required|max:225',
+            'title' => 'required|max:255',
             'content' => 'required',
             'author' => 'required|max:100'
         ]);
 
-        $posts = $this->getPosts();
-        $index = collect($posts)->search(function ($post) use ($id) {
-            return $post['id'] == (int)$id;
-        });
-
-        if ($index === false) {
-            abort(404, 'Post tidak ditemukan');
-        }
-
-        // Update post
-        $posts[$index]['title'] = $request->input('title');
-        $posts[$index]['content'] = $request->input('content');
-        $posts[$index]['author'] = $request->input('author');
-
-        $this->savePosts($posts);
-
-        return redirect()->route('posts.show', $id)
-            ->with('success', 'Post berhasil diupdate!');
+        // Simulasi update
+        return redirect()->route('posts.index')
+                         ->with('success', 'Post berhasil diperbarui!');
     }
 
-    //Menghapus post
-    public function destroy($id){
-        $posts = $this->getPosts();
-        $posts = collect($posts)->reject(function ($post) use ($id) {
-            return $post['id'] == (int)$id;
-        })->values()->toArray();
-
-        $this->savePosts($posts);
-
+    public function destroy($id)
+    {
+        // Simulasi hapus
         return redirect()->route('posts.index')
-            ->with('success', 'Post berhasil dihapus!');
+                         ->with('success', 'Post berhasil dihapus!');
     }
 }

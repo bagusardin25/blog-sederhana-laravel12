@@ -10,8 +10,7 @@
 
         <div class="form-group">
             <label for="title">Judul</label>
-            <input type="text" name="title" id="title"
-                   value="{{ old('title') }}" required>
+            <input type="text" name="title" id="title" value="{{ old('title') }}" required>
             @error('title')
                 <span class="error">{{ $message }}</span>
             @enderror
@@ -19,8 +18,7 @@
 
         <div class="form-group">
             <label for="author">Penulis</label>
-            <input type="text" name="author" id="author"
-                   value="{{ old('author') }}" required>
+            <input type="text" name="author" id="author" value="{{ old('author') }}" required>
             @error('author')
                 <span class="error">{{ $message }}</span>
             @enderror
