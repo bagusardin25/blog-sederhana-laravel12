@@ -20,18 +20,20 @@
             </a>
             
             @auth
-                <div class="flex space-x-2">
-                    <a href="{{ route('posts.edit', $post) }}" class="text-yellow-500 hover:text-yellow-600">
-                        Edit
-                    </a>
-                    <form action="{{ route('posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus post ini?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="text-red-500 hover:text-red-600">
-                            Hapus
-                        </button>
-                    </form>
-                </div>
+                @if(auth()->id() === $post->user_id)
+                    <div class="flex space-x-2">
+                        <a href="{{ route('posts.edit', $post) }}" class="text-yellow-500 hover:text-yellow-600">
+                            Edit
+                        </a>
+                        <form action="{{ route('posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus post ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-500 hover:text-red-600">
+                                Hapus
+                            </button>
+                        </form>
+                    </div>
+                @endif
             @endauth
         </div>
     </div>

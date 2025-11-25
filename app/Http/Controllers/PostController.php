@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -31,7 +32,8 @@ class PostController extends Controller
         Post::create([
             'title' => $request->title,
             'content' => $request->content,
-            'author' => auth()->user()->name, // Mengambil nama user yang login
+            'author' => auth()->user()->name,
+            'user_id' => auth()->id(), // Menyimpan ID user
         ]);
 
         return redirect()->route('posts.index')
@@ -47,12 +49,22 @@ class PostController extends Controller
     // Menampilkan form edit
     public function edit(Post $post)
     {
+        // Otorisasi: hanya pemilik yang boleh edit
+        if ($post->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         return view('posts.edit', compact('post'));
     }
 
     // Menyimpan perubahan post
     public function update(Request $request, Post $post)
     {
+        // Otorisasi
+        if ($post->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
@@ -61,7 +73,6 @@ class PostController extends Controller
         $post->update([
             'title' => $request->title,
             'content' => $request->content,
-            // Author tidak diupdate agar tetap sesuai pembuat aslinya
         ]);
 
         return redirect()->route('posts.index')
@@ -71,6 +82,11 @@ class PostController extends Controller
     // Menghapus post
     public function destroy(Post $post)
     {
+        // Otorisasi
+        if ($post->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
         $post->delete();
 
         return redirect()->route('posts.index')
