@@ -7,7 +7,29 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Development
+
+Untuk menjalankan project ini dalam mode development, Anda cukup menggunakan **satu command** untuk menjalankan semua service sekaligus:
+
+```bash
+npm run dev:all
+```
+
+atau
+
+```bash
+composer dev
+```
+
+Command ini akan menjalankan 3 service secara bersamaan:
+- **server** - Laravel development server (http://127.0.0.1:8000)
+- **queue** - Queue worker untuk background jobs
+- **vite** - Vite dev server untuk hot module replacement frontend
+
+Output dari masing-masing service akan ditampilkan dengan warna berbeda untuk memudahkan debugging. Untuk menghentikan semua service, cukup tekan `Ctrl+C`.
+
 ## About Laravel
+
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
