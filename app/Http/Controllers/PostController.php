@@ -32,8 +32,8 @@ class PostController extends Controller
         Post::create([
             'title' => $request->title,
             'content' => $request->content,
-            'author' => auth()->user()->name,
-            'user_id' => auth()->id(), // Menyimpan ID user
+            'author' => Auth::user()->name,
+            'user_id' => Auth::id(), // Menyimpan ID user
         ]);
 
         return redirect()->route('posts.index')
@@ -50,7 +50,7 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         // Otorisasi: hanya pemilik yang boleh edit
-        if ($post->user_id !== auth()->id()) {
+        if ($post->user_id !== Auth::id()) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -61,7 +61,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         // Otorisasi
-        if ($post->user_id !== auth()->id()) {
+        if ($post->user_id !== Auth::id()) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -83,7 +83,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         // Otorisasi
-        if ($post->user_id !== auth()->id()) {
+        if ($post->user_id !== Auth::id()) {
             abort(403, 'Unauthorized action.');
         }
 
