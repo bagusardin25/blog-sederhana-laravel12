@@ -32,7 +32,6 @@ class PostController extends Controller
         Post::create([
             'title' => $request->title,
             'content' => $request->content,
-            'author' => Auth::user()->name,
             'user_id' => Auth::id(), // Menyimpan ID user
         ]);
 

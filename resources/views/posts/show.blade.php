@@ -6,7 +6,7 @@
     <article class="max-w-3xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
         <div class="p-8">
             <div class="flex items-center justify-between mb-6 text-gray-500 text-sm border-b pb-4">
-                <span>Ditulis oleh <strong class="text-gray-800">{{ $post->author }}</strong></span>
+                <span>Ditulis oleh <strong class="text-gray-800">{{ $post->user->name }}</strong></span>
                 <span>{{ $post->created_at->format('d F Y, H:i') }}</span>
             </div>
 
